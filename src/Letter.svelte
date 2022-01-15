@@ -1,17 +1,17 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   export let value = '';
-  export let key; 
-
+  export let key;
   // prop: validity
 
   const dispatch = createEventDispatcher();
+
 </script>
 
 <input type="text"
   maxlength="1"
   bind:value
-  on:keypress={() => dispatch('keypress', {key, value})}
+  on:keyup={() => dispatch('keyup', {key, value})}
 />
 
 <style>

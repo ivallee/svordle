@@ -1,23 +1,36 @@
 <script>
   import { getContext } from 'svelte';
-  import Tile from './Tile.svelte';
+  import Letter from './Letter.svelte';
   const answer = getContext('answer');
 
   let word = answer.split('').map(() => '');
+  let currentLetter;
+  $: {
+    currentLetter = word.findIndex(l => l === '');
+    // move focus
+    // how to query list of letters?
+  }
 
-  function updateWord(e) {
-    console.log(e.detail)
-    // word = [...word, e.detail];
-    // console.log(word)
+  function updateWord({ detail }) {
+    let copy = [...word];
+    copy[detail.key] = detail.value;
+    word = copy;
   }
 
   // TODO
-  // 1. Collect tile states into word
+  // 1. Collect Letter states into word ✅
   // 2. handle active input state
-  // 
+    // When word becomes active, the first letter should be active
+  // 3. Submit a word and crossreference with answer
 </script>
 
 
 {#each Array(answer.length) as _, i}
-  <Tile key={i} on:keypress={updateWord}/>
+  <Letter 
+    key={i}
+    active={currentLetter === i}
+    on:keyup={updateWord}
+  />
 {/each}
+
+<p>{word.join('')}</p>
