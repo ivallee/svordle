@@ -1,8 +1,9 @@
 <script>
   import { getContext } from 'svelte';
-  import Letter from './Letter.svelte';
   import { currentWord } from './stores.js';
   const answer = getContext('answer');
+
+  import Letter from './Letter.svelte';
 
   let word = answer.split('').map(() => '');
   let currentLetter;

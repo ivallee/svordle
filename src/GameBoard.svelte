@@ -6,7 +6,7 @@
   // TODO: Make more dynamic/a random word
   // random word API?
   // DB?
-  const ANSWER_WORD = 'testy';
+  const ANSWER_WORD = 'panic';
   setContext('answer', ANSWER_WORD);
   let disabled = false;
   $: disabled = $currentWord.length !== ANSWER_WORD.length;
@@ -15,16 +15,18 @@
     const currentWordArray = $currentWord.split('');
     const answerWordArray = ANSWER_WORD.split('');
 
+    // TODO: Need to handle case for when there are more semicorrect letters
+    // than are in the word.
+    // eg. when you guess "anana" but the answer word is "panic"
+    // We should not have multiple semicorrect letters
     const result = currentWordArray.map((letter, i) => {
       let status = 'incorrect';
       if (letter === answerWordArray[i]) {
         status = 'correct';
       } else if (answerWordArray.includes(letter)) {
-        status = 'inword';
+        status = 'semicorrect';
       }
       return status;
-
-      // if no more of that letter make sure to return incorrect
     });
 
     console.log(result);
