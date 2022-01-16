@@ -20,5 +20,6 @@
     width: 100%;
     text-align: center;
     border-radius: 5px;
+    text-transform: uppercase;
   }
 </style>

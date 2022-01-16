@@ -1,6 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import Letter from './Letter.svelte';
+  import { currentWord } from './stores.js';
   const answer = getContext('answer');
 
   let word = answer.split('').map(() => '');
@@ -15,6 +16,7 @@
     let copy = [...word];
     copy[detail.key] = detail.value;
     word = copy;
+    currentWord.set(word.join(''));
   }
 
   // TODO
@@ -32,5 +34,3 @@
     on:keyup={updateWord}
   />
 {/each}
-
-<p>{word.join('')}</p>
