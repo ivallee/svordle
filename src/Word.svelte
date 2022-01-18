@@ -1,23 +1,25 @@
 <script>
   import { getContext } from 'svelte';
-  import { currentWord } from './stores.js';
+  import { rounds } from './stores.js';
   const answer = getContext('answer');
 
   import Letter from './Letter.svelte';
 
+  export let id;
+  export let isActiveRound;
+
   let word = answer.split('').map(() => '');
-  let currentLetter;
-  $: {
-    currentLetter = word.findIndex(l => l === '');
-    // move focus
-    // how to query list of letters?
-  }
 
   function updateWord({ detail }) {
     let copy = [...word];
     copy[detail.key] = detail.value;
-    word = copy;
-    currentWord.set(word.join(''));
+    word = copy.join('');
+    rounds.update(n => {
+      n[id].word = word;
+      return n;
+    });
+    // This should just bubble up?
+    // currentWord.set(word.join(''));
   }
 
   // TODO
@@ -31,7 +33,8 @@
 {#each Array(answer.length) as _, i}
   <Letter 
     key={i}
-    active={currentLetter === i}
     on:keyup={updateWord}
   />
 {/each}
+
+{isActiveRound}
