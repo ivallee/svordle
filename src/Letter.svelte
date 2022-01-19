@@ -1,16 +1,16 @@
 <script>
   import { createEventDispatcher, afterUpdate } from 'svelte';
   export let value = '';
+  export let index;
   export let valid;
 
 
   let input;
-  // prop: validity
 
   const dispatch = createEventDispatcher();
 
-  function handleChange() {
-    dispatch('keyup', { key, value })
+  function handleInput() {
+    dispatch('input', { index, value });
   }
 
 
@@ -22,7 +22,7 @@
   disabled={valid}
   bind:value={value}
   bind:this={input}
-  on:keyup={handleChange}
+  on:input={handleInput}
 />
 
 <style>
