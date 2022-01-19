@@ -1,28 +1,28 @@
 <script>
-  import { createEventDispatcher, onMount, afterUpdate } from 'svelte';
+  import { createEventDispatcher, afterUpdate } from 'svelte';
   export let value = '';
-  export let key;
-  export let active = false;
+  export let valid;
+
 
   let input;
   // prop: validity
 
   const dispatch = createEventDispatcher();
 
-  afterUpdate(() => {
-    if (active) {
-      console.log('activation stations!')
-      input.focus()
-    }
-  });
+  function handleChange() {
+    dispatch('keyup', { key, value })
+  }
+
 
 </script>
 
 <input type="text"
   maxlength="1"
+  class={valid}
+  disabled={valid}
   bind:value={value}
   bind:this={input}
-  on:keyup={() => dispatch('keyup', { key, value })}
+  on:keyup={handleChange}
 />
 
 <style>
@@ -32,5 +32,17 @@
     text-align: center;
     border-radius: 5px;
     text-transform: uppercase;
+  }
+
+  .incorrect {
+    background: grey;
+  }
+  
+  .semicorrect {
+    background: #FFE74C;
+  }
+
+  .correct {
+    background: #6BF178;
   }
 </style>

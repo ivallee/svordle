@@ -1,40 +1,32 @@
 <script>
-  import { getContext } from 'svelte';
-  import { rounds } from './stores.js';
-  const answer = getContext('answer');
-
   import Letter from './Letter.svelte';
+  import { answer } from './stores';
 
-  export let id;
-  export let isActiveRound;
+  export let word = '';
+  let wordArray = word.split('');
 
-  let word = answer.split('').map(() => '');
-
-  function updateWord({ detail }) {
-    let copy = [...word];
-    copy[detail.key] = detail.value;
-    word = copy.join('');
-    rounds.update(n => {
-      n[id].word = word;
-      return n;
-    });
-    // This should just bubble up?
-    // currentWord.set(word.join(''));
+  function validateLetters(letter, i) {
+    let valid = 'incorrect';
+    if (letter === $answer[i]) {
+      valid = 'correct';
+    } else if ($answer.includes(letter)) {
+      valid = 'semicorrect';
+    }
+    return {
+      letter,
+      valid
+    }
   }
 
-  // TODO
-  // 1. Collect Letter states into word ✅
-  // 2. handle active input state
-    // When word becomes active, the first letter should be active
-  // 3. Submit a word and crossreference with answer
+  if (word) {
+    wordArray = wordArray.map(validateLetters);
+  }
+
 </script>
 
-
-{#each Array(answer.length) as _, i}
+{#each Array($answer.length) as letter, i}
   <Letter 
-    key={i}
-    on:keyup={updateWord}
+    valid={wordArray[i] ? wordArray[i].valid : null}
+    value={wordArray[i] ? wordArray[i].letter : ''}
   />
 {/each}
-
-{isActiveRound}

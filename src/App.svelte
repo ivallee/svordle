@@ -1,6 +1,8 @@
 <script>
+  import { answer, rounds } from './stores'
   import Header from './Header.svelte';
   import GameBoard from './GameBoard.svelte';
+
 </script>
 
 
